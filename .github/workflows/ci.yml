@@ -30,12 +30,11 @@ jobs:
         run: php artisan key:generate
 
       - name: Install ChromeDriver
+        run: php artisan dusk:chrome-driver
+
+      - name: Install Google Chrome
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget unzip
-          wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
-          sudo unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
-          sudo chmod +x /usr/local/bin/chromedriver
           sudo apt-get install -y google-chrome-stable
 
       - name: Run Dusk tests
