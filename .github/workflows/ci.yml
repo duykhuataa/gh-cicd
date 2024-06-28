@@ -12,20 +12,6 @@ jobs:
   dusk-tests:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: testing
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-
     steps:
       - uses: actions/checkout@v2
 
@@ -43,14 +29,6 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate
 
-      - name: Create database
-        run: |
-          sudo apt-get install -y mysql-client
-          mysql -h 127.0.0.1 -u root -proot -e "CREATE DATABASE testing;"
-
-      - name: Run migrations
-        run: php artisan migrate
-
       - name: Install ChromeDriver
         run: |
           sudo apt-get update
@@ -64,9 +42,5 @@ jobs:
         env:
           APP_ENV: testing
           APP_URL: http://localhost
-          DB_CONNECTION: mysql
-          DB_DATABASE: testing
-          DB_USERNAME: root
-          DB_PASSWORD: root
           CHROME_BIN: /usr/bin/google-chrome
         run: php artisan dusk
