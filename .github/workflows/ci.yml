@@ -43,6 +43,6 @@ jobs:
       - name: Run Dusk tests
         env:
           APP_ENV: testing
-          APP_URL: http://localhost
+          APP_URL: http://localhost:8000
           CHROME_BIN: /usr/bin/google-chrome
         run: php artisan dusk
